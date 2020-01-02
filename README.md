@@ -12,6 +12,9 @@ to make arbitrary tests on each parent directory;
 colorizing based on ownership, permissions, existence of files,
 and more.
 
+*TODO: screenshot*
+
+## Installing
 
 ```
 [TODO]
