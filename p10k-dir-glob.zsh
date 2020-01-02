@@ -1,16 +1,9 @@
 #!/usr/bin/env zsh
 
-[[ -d $1 ]] && cd $1
-
-POWERLEVEL9K_DIR_FOREGROUND='%F{magenta}'
-POWERLEVEL9K_DIR_SEPARATOR='%F{244}/'
-
 declare -ga prompt_dir_glob__globs
 declare -gA prompt_dir_glob__{prefix,suffix,truncate}
-prompt_dir_glob__truncate[fallback]=unique
 
 function .prompt_dir-glob::dir-gw(){
-r
 	zmodload zsh/parameter
 	for g ($usergroups); do
 		local f=("${REPLY}"(Eg$g))
@@ -31,15 +24,6 @@ function prompt_dir-glob::add-glob() {
 		[[ -v truncate ]] && prompt_dir_glob__truncate[$g]=$truncate[2]
 	done
 }
-
-prompt_dir-glob::add-glob -g '.git(/)' --pre '%B%F{green}'
-prompt_dir-glob::add-glob -g '.git(.)' --pre   '%F{green}'
-prompt_dir-glob::add-glob -g '(Uw)'    --pre   '%F{blue}'
-prompt_dir-glob::add-glob -g '(Ie,.prompt_dir-glob::dir-gw,)' --pre '%F{cyan}' -t unique
-prompt_dir-glob::add-glob -g '(Wt)'    --pre '%U%F{12}'
-zmodload zsh/zutil
-zstyle -b :dir-glob seperate-sections true
-zstyle -b :dir-glob truncate-pwd true
 
 function prompt_dir-glob(){
 	setopt -L nullglob
@@ -104,6 +88,5 @@ function prompt_dir-glob(){
 	done
 
 	# don't append final separator
-	REPLY=${(j::)dir_parts[1,-2]}
-	p10k segment -t $REPLY
+	p10k segment -t ${(j::)dir_parts[1,-2]}
 }
