@@ -50,7 +50,6 @@ function prompt_dir-glob(){
 	actual_init=${actual%${show#*/}}
 	show_init=${show%%/*}
 	remainder=${actual#$actual_init}
-	echo $show
 
 	local glob
 	local -a dir_parts
@@ -108,7 +107,3 @@ function prompt_dir-glob(){
 	REPLY=${(j::)dir_parts[1,-2]}
 	p10k segment -t $REPLY
 }
-
-REPLY=
-prompt_dir-glob "$@"
-print -head $REPLY
