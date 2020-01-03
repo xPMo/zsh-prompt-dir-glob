@@ -37,13 +37,15 @@ function prompt_dir-glob(){
 
 	local glob
 	local -a dir_parts
-	for dir ("$actual_init" ${(s:/:)remainder}); do
+	for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 		# handle root case
-		if [[ -z $dir_parts && $actual_init = / ]] &&
-				! zstyle -t :dir-glob seperate-sections
-		then
-			dir_parts+=($POWERLEVEL9K_DIR_SEPARATOR)
-			continue
+		if [[ -z $dir ]]; then
+			if ! zstyle -t :dir-glob seperate-sections; then
+				dir_parts+=($POWERLEVEL9K_DIR_SEPARATOR)
+				head=/
+				continue
+			fi
+			dir=/
 		fi
 
 		# match glob
