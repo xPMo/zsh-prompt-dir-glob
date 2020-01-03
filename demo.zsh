@@ -18,7 +18,7 @@ zmodload zsh/zutil
 zstyle -b :dir-glob seperate-sections true
 zstyle -b :dir-glob truncate-pwd true
 
-()(
+(
 	[[ -d $1 ]] && cd $1
 
 	# for demo purposes, replace p10k
