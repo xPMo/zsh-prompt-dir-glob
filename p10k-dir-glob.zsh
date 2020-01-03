@@ -26,6 +26,7 @@ function prompt_dir-glob::clear-cache(){
 	__prompt_dir_glob__cache=( )
 }
 
+# A front-end to prompt_dir_glob* arrays
 function prompt_dir-glob::add-glob() {
 	zmodload zsh/zutil
 	local -a glob prefix suffix truncate 
