@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 
-
 source ./p10k-dir-glob.zsh
+
+prompt_dir-glob::clear-cache
 
 POWERLEVEL9K_DIR_FOREGROUND='%F{magenta}'
 POWERLEVEL9K_DIR_SEPARATOR='%F{244}/'
