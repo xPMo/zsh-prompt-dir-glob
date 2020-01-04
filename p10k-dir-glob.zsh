@@ -50,9 +50,9 @@ function prompt_dir-glob::add-glob() {
 	zparseopts - g:=glob -pre:=prefix -suf:=suffix t:=truncate
 	for f g in "${(@)glob}"; do
 		prompt_dir_glob__globs+=("$g")
-		[[ -v prefix ]] && prompt_dir_glob__prefix[$g]=$prefix[2]
-		[[ -v suffix ]] && prompt_dir_glob__suffix[$g]=$suffix[2]
-		[[ -v truncate ]] && prompt_dir_glob__truncate[$g]=$truncate[2]
+		[[ -v prefix ]] && prompt_dir_glob__prefix[$g]=$prefix[-1]
+		[[ -v suffix ]] && prompt_dir_glob__suffix[$g]=$suffix[-1]
+		[[ -v truncate ]] && prompt_dir_glob__truncate[$g]=$truncate[-1]
 	done
 }
 
