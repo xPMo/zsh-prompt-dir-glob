@@ -28,9 +28,11 @@ function prompt_dir-glob::flush-cache(){
 	zcompile $PROMPT_DIR_GLOB__CACHE_FILE
 }
 
+# Clear cache, or clear cache under given directory
+# relative paths are not supported
 function prompt_dir-glob::clear-cache(){
 	if [[ -n $1 ]]; then
-		for dir in $__prompt_dir_glob__cache[(I)$dir*]; do
+		for dir in $__prompt_dir_glob__cache[(I)(${1%/}|${1%/}/*)]; do
 			unset "__prompt_dir_glob__cache[$dir]"
 		done
 		prompt_dir-glob::flush-cache
