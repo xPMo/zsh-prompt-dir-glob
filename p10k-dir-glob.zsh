@@ -9,7 +9,9 @@ autoload -Uz .prompt_dir-glob::format-dir
 declare -ga prompt_dir_glob__globs
 declare -gA prompt_dir_glob__{prefix,suffix,truncate}
 declare -gA __prompt_dir_glob__cache
-: ${PROMPT_DIR_GLOB__CACHE_FILE:=${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache}
+: \
+	${PROMPT_DIR_GLOB__CACHE_FILE:="${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache"} \
+	${POWERLEVEL9K_DIR_SEPARATOR:='/'}
 
 [[ -r $PROMPT_DIR_GLOB__CACHE_FILE ]] &&
 	. $PROMPT_DIR_GLOB__CACHE_FILE

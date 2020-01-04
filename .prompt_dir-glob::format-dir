@@ -13,7 +13,7 @@ for glob ("${(@)prompt_dir_glob__globs}"); do
 done
 
 # get prefix style
-parts+=(${prompt_dir_glob__prefix[(e)$glob]:-$POWERLEVEL9K_DIR_FOREGROUND})
+parts+=(${prompt_dir_glob__prefix[(e)$glob]:-"%F{$POWERLEVEL9K_DIR_FOREGROUND}"})
 
 # {{{ truncate dir
 # don't truncate show_init
@@ -41,7 +41,7 @@ parts+=(${show_init:-${dir_truncated:-$dir}})
 unset show_init
 
 # get suffix style
-parts+=(${prompt_dir_glob__suffix[(e)$glob]}$'%{\e[0m%}')
+parts+=(${prompt_dir_glob__suffix[(e)$glob]})
 
 # add to parts and cache
 dir_parts+=(${__prompt_dir_glob__cache[$head$dir]::=${(j::)parts}})
