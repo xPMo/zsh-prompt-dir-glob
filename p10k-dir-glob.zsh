@@ -9,9 +9,10 @@ autoload -Uz .prompt_dir-glob::format-dir
 declare -ga prompt_dir_glob__globs
 declare -gA prompt_dir_glob__{prefix,suffix,truncate}
 declare -gA __prompt_dir_glob__cache
+: ${PROMPT_DIR_GLOB__CACHE_FILE:=${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache}
 
-[[ -r ${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache ]] &&
-	. ${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache
+[[ -r $PROMPT_DIR_GLOB__CACHE_FILE ]] &&
+	. $PROMPT_DIR_GLOB__CACHE_FILE
 
 function .prompt_dir-glob::dir-gw(){
 	zmodload zsh/parameter
@@ -23,8 +24,8 @@ function .prompt_dir-glob::dir-gw(){
 }
 
 function prompt_dir-glob::flush-cache(){
-	typeset -p __prompt_dir_glob__cache > ${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache
-	zcompile ${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache
+	typeset -p __prompt_dir_glob__cache > $PROMPT_DIR_GLOB__CACHE_FILE
+	zcompile $PROMPT_DIR_GLOB__CACHE_FILE
 }
 
 function prompt_dir-glob::clear-cache(){
@@ -35,7 +36,7 @@ function prompt_dir-glob::clear-cache(){
 		prompt_dir-glob::flush-cache
 	else
 		__prompt_dir_glob__cache=( )
-		: > ${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache
+		: > $PROMPT_DIR_GLOB__CACHE_FILE
 	fi
 }
 
