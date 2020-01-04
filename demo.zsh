@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ./p10k-dir-glob.zsh
+source ${0:h}/p10k-dir-glob.zsh
 
 prompt_dir-glob::clear-cache
 
