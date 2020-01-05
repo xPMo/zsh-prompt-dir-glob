@@ -87,6 +87,7 @@ function prompt_dir-glob(){
 		else
 			.prompt_dir-glob::format-dir
 		fi
+		unset show_init
 		dir_parts+=("$PROMPT_DIR_GLOB__SEPARATOR")
 		head+=${dir}/
 	done

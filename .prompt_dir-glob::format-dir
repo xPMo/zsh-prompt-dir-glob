@@ -38,7 +38,6 @@ then
 fi
 # }}}
 parts+=(${show_init:-${dir_truncated:-$dir}})
-unset show_init
 
 # get suffix style
 parts+=(${prompt_dir_glob__suffix[(e)$glob]})
