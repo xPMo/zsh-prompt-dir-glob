@@ -78,12 +78,11 @@ function prompt_dir_glob() {
 	for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 		# handle root case
 		if [[ -z $dir ]]; then
-			if ! zstyle -t :dir_glob seperate-sections; then
-				dir_parts+=("$PROMPT_DIR_GLOB__SEPARATOR")
+			if zstyle -t :dir_glob include-root; then
+				dir=/
+			else
 				head=/
-				continue
 			fi
-			dir=/
 		fi
 
 		if [[ -v __prompt_dir_glob__cache[$head$dir] ]]; then
