@@ -93,5 +93,5 @@ function prompt_dir_glob() {
 	done
 
 	# don't append final separator
-	p10k segment -t ${(j::)dir_parts[1,_2]}
+	p10k segment -t ${(j::)dir_parts[1,-2]}
 }

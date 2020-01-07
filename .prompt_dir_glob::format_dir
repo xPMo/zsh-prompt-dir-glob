@@ -32,8 +32,10 @@ then
 		done
 	;;
 	c*) # char:NUM
-		w=${${(M)dir%%[[:digit:]]*}:-1}
-		dir_truncated=${dir[1,w]}
+		w=${${(M)prompt_dir_glob__truncate[(e)$glob]%%[[:digit:]]*}:-1}
+		if (( w + 1 < $#dir )); then
+			dir_truncated=${dir[1,w]}'\u2025'
+		fi
 	esac
 fi
 # }}}
