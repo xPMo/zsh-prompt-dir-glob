@@ -49,8 +49,10 @@ then
 	;;
 	c*) # char:NUM
 		w=${${(M)prompt_dir_glob__truncate[(e)$glob]%%[[:digit:]]*}:-1}
-		if (( w + 1 < $#dir )); then
-			dir_truncated=${dir[1,w]}'\u2025'
+		if (( w == 0 )); then
+			dir_truncated='%{%}' # print nothing
+		elif (( w < $#dir )); then
+			dir_truncated=${dir[0,w-1]}'\u2025'
 		fi
 	esac
 fi
