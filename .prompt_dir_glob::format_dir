@@ -22,7 +22,7 @@ if [[ -z ${glob::=$__prompt_dir_glob__cache[$head$dir]} ]]; then
 	__prompt_dir_glob__cache[$head$dir]=$glob
 
 	# schedule cache writeout
-	if [[ ! ${(M)zsh_scheduled_events:#*prompt_dir-glob::flush-cache} ]]; then
+	if [[ ! ${(M)zsh_scheduled_events:#*prompt_dir_glob::flush_cache} ]]; then
 		sched +15 prompt_dir_glob::flush_cache
 	fi
 fi
