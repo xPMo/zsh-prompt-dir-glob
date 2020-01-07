@@ -9,12 +9,10 @@ autoload -Uz .prompt_dir_glob::format_dir prompt_dir_glob::add_glob
 declare -ga prompt_dir_glob__globs
 declare -gA prompt_dir_glob__{prefix,suffix,truncate}
 declare -gA __prompt_dir_glob__cache
-: \
-	${PROMPT_DIR_GLOB__CACHE_FILE:="${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache"} \
-	${PROMPT_DIR_GLOB__SEPARATOR:=${POWERLEVEL9K_DIR_SEPARATOR:-'/'}}
+: ${PROMPT_DIR_GLOB__CACHE_FILE:="${XDG_CACHE_HOME:-$HOME/.cache}/p10k_dir_glob.cache"}
+: ${PROMPT_DIR_GLOB__SEPARATOR:=${POWERLEVEL9K_DIR_SEPARATOR:-'/'}}
 
-[[ -r $PROMPT_DIR_GLOB__CACHE_FILE ]] &&
-	. $PROMPT_DIR_GLOB__CACHE_FILE
+[[ -r $PROMPT_DIR_GLOB__CACHE_FILE ]] && . $PROMPT_DIR_GLOB__CACHE_FILE
 
 function .prompt_dir_glob::is_dir_gw() {
 	zmodload zsh/parameter
