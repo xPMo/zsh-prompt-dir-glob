@@ -67,7 +67,7 @@ function prompt_dir_glob() {
 
 		unset show_init
 		# reset foreground style
-		dir_parts+=("$PROMPT_DIR_GLOB__SEPARATOR%b%f")
+		dir_parts+=("$PROMPT_DIR_GLOB__SEPARATOR%b%f%u")
 		head+=${dir}/
 	done
 
