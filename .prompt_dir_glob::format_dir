@@ -1,19 +1,35 @@
 #!/usr/bin/env zsh
+# IMPORTANT: This should be private only.
+# IMPORTANT: Without the calling function, this function will poison local state.
 
-# This should be private only.
-# Without the calling function, this function will poison local state.
+emulate -L zsh
+setopt extendedglob nullglob
 
 local -a parts=()
-# match glob
-glob=
-for glob ("${(@)prompt_dir_glob__globs}"); do
-	local f=("$head$dir/"$~glob)
-	[[ -n $f ]] && break
-	glob=fallback
-done
+# {{{ check cache and match glob
+local glob
+if [[ -z ${glob::=$__prompt_dir_glob__cache[$head$dir]} ]]; then
+
+	for glob ("${(@)prompt_dir_glob__globs}"); do
+		local f=("$head$dir/"$~glob)
+		[[ -n $f ]] && break
+		# fallback value is an invalid glob (to prevent clobbering with user globs)
+		glob='(#fallback)'
+	done
+
+
+	# write to cache array
+	__prompt_dir_glob__cache[$head$dir]=$glob
+
+	# schedule cache writeout
+	if [[ ! ${(M)zsh_scheduled_events:#*prompt_dir-glob::flush-cache} ]]; then
+		sched +15 prompt_dir-glob::flush-cache
+	fi
+fi
+# }}}
 
 # get prefix style
-parts+=(${prompt_dir_glob__prefix[(e)$glob]:-"%F{$POWERLEVEL9K_DIR_FOREGROUND}"})
+parts+=(${prompt_dir_glob__prefix[(e)$glob]:="%F{$POWERLEVEL9K_DIR_FOREGROUND}"})
 
 # {{{ truncate dir
 # don't truncate show_init
@@ -45,9 +61,4 @@ parts+=(${show_init:-${dir_truncated:-$dir}})
 parts+=(${prompt_dir_glob__suffix[(e)$glob]})
 
 # add to parts and cache
-dir_parts+=(${__prompt_dir_glob__cache[$head$dir]::=${(j::)parts}})
-
-# schedule cache writeout
-if [[ ! ${(M)zsh_scheduled_events:#*prompt_dir-glob::flush-cache} ]]; then
-	sched +15 prompt_dir-glob::flush-cache
-fi
+dir_parts+=("${(j::)parts}")
