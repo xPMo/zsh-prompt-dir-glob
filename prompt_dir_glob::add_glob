@@ -1,0 +1,69 @@
+#!/usr/bin/env zsh
+emulate -L zsh
+setopt extendedglob
+
+zmodload zsh/zutil
+
+local -a glob prefix suffix truncate shortcuts help
+local f g shortcut
+
+zparseopts - G:=glob g:=glob -glob:=glob \
+	-pre:=prefix -suf:=suffix \
+	t:=truncate -truncate:=truncate \
+	-gw=shortcuts -inner=shortcuts \
+	h=help -help=help
+if (( $#help )); then
+	print -P "
+Usage: %B$0 [ GLOBSPEC ... ] [[ OPTIONS ... ]]%b
+Usage: %B$0 -h | --help%b
+
+Define a glob to be matched against a directory segment,
+and the formatting which is done to the glob
+
+It is recommended to use %F{14}'(#q...)'%f for glob qualifiers,
+since some flags append extra glob qualifiers to your glob entries
+
+Examples:
+
+%F{7}# Color directories containing a folder called '.git' green
+%F{14}$0 --glob '.git(#q/)' --pre '%%F{green}'
+
+%F{7}# For directories owned and writable by \$EUID,
+# truncate to 6 characters and color blue
+%F{14}$0 -g '(#qUw)' --pre '%%F{blue}' --truncate c6
+%f
+Flags:
+
+	-h|--help            print this help and exit
+GLOBSPEC:
+	-g|--glob glob       Add an entry for this glob
+	-G glob              Add an entry for this glob, but prioitize over previous entries
+	--gw                 append (#q...) for testing if user has group write permissions
+	--inner              append (#q...) for testing if this is an inner directory:
+	                     In ~/foo/bar/baz, 'foo' and 'bar' are inner, '~' and 'baz' are not
+OPTIONS:
+	-t|--truncate spec   If spec is 'cN', where N is numeric, then truncate to N characters
+	                     If spec is 'u', then truncate to the unique directory
+	--pre text           Use 'text' as a prefix to this directory. Prompt expansion is enabled
+	--suf text           Use 'text' as a suffix to this directory. Prompt expansion is enabled
+"
+	return 0
+fi
+for f g in "${(@)glob}"; do
+	for shortcut in ${(@)shortcuts}; do
+		case $shortcut in
+			--gw)
+				g+='(#qe<.prompt_dir_glob::is_dir_gw>)' ;;
+			--inner)
+				g+='(#qe<.prompt_dir_glob::is_inner>)' ;;
+		esac
+	done
+	if [[ $f = -G ]]; then
+		prompt_dir_glob__globs=("$g" "${(@)prompt_dir_glob__globs}")
+	else
+		prompt_dir_glob__globs+=("$g")
+	fi
+	(( $#prefix   )) && prompt_dir_glob__prefix[$g]=$prefix[2]
+	(( $#suffix   )) && prompt_dir_glob__suffix[$g]=$suffix[2]
+	(( $#truncate )) && prompt_dir_glob__truncate[$g]=$truncate[2]
+done
