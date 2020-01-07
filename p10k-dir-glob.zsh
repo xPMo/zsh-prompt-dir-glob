@@ -4,7 +4,7 @@
 0="${${(M)0:#/*}:-$PWD/$0}"
 
 fpath+=(${0:h})
-autoload -Uz .prompt_dir_glob::format_dir
+autoload -Uz .prompt_dir_glob::format_dir prompt_dir_glob::add_glob
 
 declare -ga prompt_dir_glob__globs
 declare -gA prompt_dir_glob__{prefix,suffix,truncate}
@@ -16,7 +16,7 @@ declare -gA __prompt_dir_glob__cache
 [[ -r $PROMPT_DIR_GLOB__CACHE_FILE ]] &&
 	. $PROMPT_DIR_GLOB__CACHE_FILE
 
-function .prompt_dir_glob::dir_gw() {
+function .prompt_dir_glob::is_dir_gw() {
 	zmodload zsh/parameter
 	for g ($usergroups); do
 		local f=("${REPLY}"(Eg$g))
@@ -44,25 +44,6 @@ function prompt_dir_glob::clear_cache() {
 	fi
 }
 
-# A front-end to prompt_dir_glob* arrays
-# It is recommended to use explicit globs: (#q<qual>)
-function prompt_dir_glob::add_glob() {
-	# TODO: use zparseopts to add shortcuts for
-	# - dir_gw ($usergroups has group and is g+w)
-	# - inner  (not $show_init or ${PWD:t})
-	# Just append the globs, (#q<a>)(#q<b>)(#q<c>) <=> (#q<abc>)
-	zmodload zsh/zutil
-	local -a glob prefix suffix truncate 
-	local f g
-	zparseopts - g:=glob -pre:=prefix -suf:=suffix t:=truncate
-	for f g in "${(@)glob}"; do
-		prompt_dir_glob__globs+=("$g")
-		(( $#prefix   )) && prompt_dir_glob__prefix[$g]=$prefix[-1]
-		(( $#suffix   )) && prompt_dir_glob__suffix[$g]=$suffix[-1]
-		(( $#truncate )) && prompt_dir_glob__truncate[$g]=$truncate[-1]
-	done
-}
-
 function prompt_dir_glob() {
 	setopt -L nullglob
 
@@ -84,15 +65,11 @@ function prompt_dir_glob() {
 				head=/
 			fi
 		fi
+		.prompt_dir_glob::format_dir
 
-		if [[ -v __prompt_dir_glob__cache[$head$dir] ]]; then
-			# use cache
-			dir_parts+=($__prompt_dir_glob__cache[$head$dir])
-		else
-			.prompt_dir_glob::format_dir
-		fi
 		unset show_init
-		dir_parts+=("$PROMPT_DIR_GLOB__SEPARATOR")
+		# reset foreground style
+		dir_parts+=("$PROMPT_DIR_GLOB__SEPARATOR%b%f")
 		head+=${dir}/
 	done
 
