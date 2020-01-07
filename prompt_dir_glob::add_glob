@@ -39,8 +39,6 @@ GLOBSPEC:
 	-g|--glob glob       Add an entry for this glob
 	-G glob              Add an entry for this glob, but prioitize over previous entries
 	--gw                 append (#q...) for testing if user has group write permissions
-	--inner              append (#q...) for testing if this is an inner directory:
-	                     In ~/foo/bar/baz, 'foo' and 'bar' are inner, '~' and 'baz' are not
 OPTIONS:
 	-t|--truncate spec   If spec is 'cN', where N is numeric, then truncate to N characters
 	                     If spec is 'u', then truncate to the unique directory
@@ -54,8 +52,6 @@ for f g in "${(@)glob}"; do
 		case $shortcut in
 			--gw)
 				g+='(#qe<.prompt_dir_glob::is_dir_gw>)' ;;
-			--inner)
-				g+='(#qe<.prompt_dir_glob::is_inner>)' ;;
 		esac
 	done
 	if [[ $f = -G ]]; then
