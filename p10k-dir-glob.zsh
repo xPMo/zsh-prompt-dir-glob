@@ -45,7 +45,12 @@ function prompt_dir_glob::clear_cache() {
 }
 
 # A front-end to prompt_dir_glob* arrays
+# It is recommended to use explicit globs: (#q<qual>)
 function prompt_dir_glob::add_glob() {
+	# TODO: use zparseopts to add shortcuts for
+	# - dir_gw ($usergroups has group and is g+w)
+	# - inner  (not $show_init or ${PWD:t})
+	# Just append the globs, (#q<a>)(#q<b>)(#q<c>) <=> (#q<abc>)
 	zmodload zsh/zutil
 	local -a glob prefix suffix truncate 
 	local f g
