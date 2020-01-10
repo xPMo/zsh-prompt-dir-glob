@@ -34,7 +34,6 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 			glob='(#fallback)'
 		done
 
-
 		# write to cache array
 		__prompt_dir_glob__cache[$head$dir]=$glob
 
@@ -53,7 +52,10 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	local dir_truncated=''
 	if
 		[[ -z $show_init && $prompt_dir_glob__truncate[(e)$glob] ]] &&
-		{ [[ ${head:a}/$dir != $actual ]] || zstyle -t :dir-glob truncate-pwd false }
+			# this directory should be truncated unless it is '.'
+		{ [[ ${head:a}/$dir != $actual ]] || zstyle -t :dir-glob truncate-pwd false } &&
+			# this directory should be truncated, try cache first
+		[[ -z ${dir_truncated::=$__prompt_dir_glob__truncate_cache[$head$dir]} ]]
 	then
 		case $prompt_dir_glob__truncate[(e)$glob] in
 		u*) # unique
@@ -72,6 +74,14 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 				dir_truncated=${dir[0,w-1]}'\u2025'
 			fi
 		esac
+
+		# write to cache array
+		__prompt_dir_glob__truncate_cache[$head$dir]=$dir_truncated
+
+		# schedule cache writeout
+		if [[ ! ${(M)zsh_scheduled_events:#*prompt_dir_glob::flush_cache} ]]; then
+			sched +15 prompt_dir_glob::flush_cache
+		fi
 	fi
 	# }}}
 	parts+=(${show_init:-${dir_truncated:-$dir}})
