@@ -32,10 +32,7 @@ function prompt_dir_glob::flush_cache() {
 # relative paths are not supported
 function prompt_dir_glob::clear_cache() {
 	if [[ -n $1 ]]; then
-		for dir in $__prompt_dir_glob__cache[(I)(${1%/}|${1%/}/*)]; do
-			unset "__prompt_dir_glob__cache[$dir]"
-		done
-		prompt_dir_glob::flush_cache
+		unset '__prompt_dir_glob__cache['${^__prompt_dir_glob__cache[(I)(${1%/}|${1%/}/*)]}']'
 	else
 		__prompt_dir_glob__cache=( )
 		: > $PROMPT_DIR_GLOB__CACHE_FILE
