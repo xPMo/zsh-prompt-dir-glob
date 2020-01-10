@@ -10,7 +10,7 @@ show_init=${show%%/*}
 remainder=${actual#$actual_init}
 
 local glob
-local -a dir_parts
+local -a dir_parts parts
 for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	# {{{ handle root case
 	if [[ -z $dir ]]; then
@@ -22,9 +22,9 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	fi
 	# }}}
 
-	local -a parts=()
+	parts=()
+	glob=
 	# {{{ check cache and match glob
-	local glob
 	if [[ -z ${glob::=$__prompt_dir_glob__cache[$head$dir]} ]]; then
 
 		for glob ("${(@)prompt_dir_glob__globs}"); do
