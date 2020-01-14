@@ -27,7 +27,7 @@ Do you want to do use cyan for directories that groups you are a member of can w
 This plugin provides a function which you can use:
 
 ```zsh
-prompt_dir_glob::add_glob -g '(e[.prompt_dir_glob::is_dir_gw])' --prefix '%F{cyan}'
+prompt_dir_glob::add_glob -g '(e[prompt_dir_glob::is_dir_gw])' --prefix '%F{cyan}'
 ```
 
 Want to append directories containing a `.git` directory with a [cool git icon](https://www.nerdfonts.com)?
