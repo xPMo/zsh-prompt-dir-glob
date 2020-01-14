@@ -6,7 +6,7 @@
 # We need zparseopts
 zmodload zsh/zutil
 
-fpath+=(${0:h})
+fpath+=("${0:h}/functions")
 autoload -Uz prompt_dir_glob{,::{add_glob,clear_cache,is_dir_gw}}
 
 declare -ga prompt_dir_glob__globs
