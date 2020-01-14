@@ -2,8 +2,6 @@
 emulate -L zsh
 setopt extendedglob
 
-zmodload zsh/zutil
-
 local -a glob prefix suffix truncate shortcuts help
 local f g shortcut
 

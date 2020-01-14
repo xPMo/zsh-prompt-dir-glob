@@ -3,6 +3,9 @@
 0="${${ZERO:-${0:#$ZSH_ARGZERO}}:-${(%):-%N}}"
 0="${${(M)0:#/*}:-$PWD/$0}"
 
+# We need zparseopts
+zmodload zsh/zutil
+
 fpath+=(${0:h})
 autoload -Uz prompt_dir_glob{,::add_glob}
 
