@@ -7,7 +7,7 @@
 zmodload zsh/zutil
 
 fpath+=(${0:h})
-autoload -Uz prompt_dir_glob{,::add_glob}
+autoload -Uz prompt_dir_glob{,::add_glob,::clear_cache}
 
 declare -ga prompt_dir_glob__globs
 declare -gA prompt_dir_glob__{prefix,suffix,truncate}
