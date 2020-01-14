@@ -20,7 +20,7 @@ prompt_dir_glob::add_glob -g '.git(#q/)' --pre '%B%F{green}'
 prompt_dir_glob::add_glob -g '.git(#q.)' --pre   '%F{green}'
 prompt_dir_glob::add_glob -g '(#qW)'     --pre   '%F{yellow}'
 prompt_dir_glob::add_glob -g '(#qUw)'    --pre   '%F{blue}'
-prompt_dir_glob::add_glob -g '(#qIe;.prompt_dir_glob::dir_gw;)' --pre '%F{cyan}' -t unique
+prompt_dir_glob::add_glob -g '(#qIe;.prompt_dir_glob::is_dir_gw;)' --pre '%F{cyan}' -t unique
 prompt_dir_glob::add_glob -g '(#qWt)'    --pre '%U%F{12}'
 prompt_dir_glob__truncate[(#fallback)]=unique
 POWERLEVEL9K_DIR_FOREGROUND='magenta'
@@ -74,6 +74,5 @@ zstyle :dir_glob include-root true
 for dir; do
 	( cd $dir && prompt_dir_glob )
 done
-prompt_dir_glob::add_glob --help
 # }}}
 # vim: foldmethod=marker
