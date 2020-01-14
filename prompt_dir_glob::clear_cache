@@ -1,0 +1,35 @@
+#!/usr/bin/env zsh
+# Clear cache, or clear cache under given directory
+# relative paths are not supported
+local -a opts
+zparseopts -D -E -a opts - g t h -help
+if [[ $opts[(I)(-h|--help)] ]]; then
+	print -P -l \
+		"Usage: $0 [ -h | --help ] | [ -g ] [ -t ] [ DIRECTORY ... ]"
+		''
+		'If no flag is provided, both caches will be cleared'
+		'If no directory is provided, the whole array will be cleared'
+		''
+		'	-h|--help   Show this help'
+		'	-g          Clear the glob matching cache'
+		'	-t          Clear the truncation cache'
+		'	DIRECTORY   The directories to clear'
+	return
+fi
+# if no opts, add both '-g' and '-t'
+opts=(${opts:--{g,t}})
+if (( $opts[(I)-g] )); then
+	if [[ -n $1 ]]; then
+		unset '__prompt_dir_glob__cache['${^__prompt_dir_glob__cache[(I)(${1%/}|${1%/}/*)]}']'
+	else
+		__prompt_dir_glob__cache=( )
+	fi
+fi
+if (( $opts[(I)-t] )); then
+	if [[ -n $1 ]]; then
+		unset '__prompt_dir_glob__truncate_cache['${^__prompt_dir_glob__cache[(I)(${1%/}|${1%/}/*)]}']'
+	else
+		__prompt_dir_glob__truncate_cache=( )
+	fi
+fi
+prompt_dir_glob::flush_cache
