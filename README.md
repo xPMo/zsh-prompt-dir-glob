@@ -1,5 +1,9 @@
 *This project is under development as part of my 100 days of code challenge, beginning 2020-01-01.*
 
+<!-- TODO:
+- Explain zstyle options
+-->
+
 # Directory Coloring by Globs
 
 *An alternate directory segment for [Powerlevel10k](https://github.com/romkatv/powerlevel10k)*
