@@ -14,6 +14,8 @@ This plugin uses user-defined globs to format each directory in the tree separat
 
 ## Usage
 
+### Adding globs
+
 Want to color directories you own and can write to blue?
 The glob qualifier `(U)` matches user-owned files, and `(w)` matches owner-writable files.
 
@@ -21,7 +23,7 @@ The glob qualifier `(U)` matches user-owned files, and `(w)` matches owner-writa
 prompt_dir_glob::add_glob --glob '(#qUw)' --prefix '%F{blue}'
 ```
 
-Do you want to do use cyan for the groups your in and can write to?
+Do you want to do use cyan for directories that groups you are a member of can write to?
 This plugin provides a function which you can use:
 
 ```zsh
@@ -41,8 +43,9 @@ Use the special value `(#fallback)`.
 prompt_dir_glob::add_glob -g '(#fallback)' --truncate c4
 ```
 
-_(See `prompt_dir_glob::add_glob --help` for more information.)_
+See `prompt_dir_glob::add_glob --help` for more information.
 
+### Changing the path separator
 
 Prefer a different path separator than the boring `/`?
 
@@ -50,15 +53,21 @@ Prefer a different path separator than the boring `/`?
 PROMPT_DIR_GLOB__SEPARATOR=' %B%F{245}\ue0b1 '
 ```
 
+### Cache
+
+This plugin caches the matched glob and truncation values
+for all previously seen directories,
+so you may need to tell it to ignore the cache in certain cases.
+
 Did you add or change globs in your config recently?
 We cache previous entries to save expensive `stat` calls,
 so you probably need to clear the cache:
 
 ```zsh
-prompt_dir_glob::clear_cache
+prompt_dir_glob::clear_cache -g   # or '-t' to clear the truncate cache
 ```
 
-Did you change the properties of some directory?
+Did you change the properties of some specific directory?
 Maybe called `git init` inside an empty directory?
 Clear out the cache for all directories underneath a given directory:
 
@@ -66,6 +75,29 @@ Clear out the cache for all directories underneath a given directory:
 prompt_dir_glob::clear_cache $PWD
 ```
 
+If you use unique-path truncation,
+you may wish to reset the stored truncation
+when creating a new directory or file.
+Use a function like this to wrap `mkdir`:
+
+```zsh
+function mkdir() {
+	# support both builtin mkdir (from zsh/files module) and external command mkdir
+	emulate -L zsh
+	setopt posixbuiltins
+
+	local arg
+	for arg; do
+		unset "__prompt_dir_glob__truncate_cache[${${arg:a}:h}]"
+	done
+	command mkdir "$@"
+}
+```
+
+This will interpret flags as directories,
+so if you provide flags to `mkdir`,
+it will unset the cached truncation of the current working directory as well.
+`mkdir` will still interpret flags correctly, though.
 
 
 ## Source order
@@ -73,9 +105,8 @@ prompt_dir_glob::clear_cache $PWD
 We recommend loading/sourcing this plugin
 _before_ loading/sourcing Powerlevel10k.
 
-This means that you must configure your globs
-with `prompt_dir_glob::add_glob` _after_ 
-
+Since `prompt_dir_glob::add_glob` is provided by this plugin,
+make sure not to call it until after loading the plugin.
 
 ## Installation
 
