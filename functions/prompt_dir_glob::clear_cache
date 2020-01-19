@@ -3,17 +3,18 @@
 # relative paths are not supported
 local -a opts
 zparseopts -D -E -a opts - g t h -help
-if [[ $opts[(I)(-h|--help)] ]]; then
-	print -P -l \
-		"Usage: $0 [ -h | --help ] | [ -g ] [ -t ] [ DIRECTORY ... ]"
-		''
-		'If no flag is provided, both caches will be cleared'
-		'If no directory is provided, the whole array will be cleared'
-		''
-		'	-h|--help   Show this help'
-		'	-g          Clear the glob matching cache'
-		'	-t          Clear the truncation cache'
-		'	DIRECTORY   The directories to clear'
+if (( opts[(I)(-h|--help)] )); then
+	print -P \
+"Usage: $0 [ -h | --help ] | [ -g ] [ -t ] [ DIRECTORY ... ]
+
+If no flag is provided, both caches will be cleared
+If no directory is provided, the whole array will be cleared
+
+	-h|--help   Show this help
+	-g          Clear the glob matching cache
+	-t          Clear the truncation cache
+	DIRECTORY   The directories to clear
+"
 	return
 fi
 # if no opts, add both '-g' and '-t'
