@@ -1,1 +1,0 @@
-p10k-dir-glob.zsh
