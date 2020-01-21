@@ -10,7 +10,7 @@
 
 Would you like to see your prompt path look like one of these?
 
-![Fancy demo](https://raw.githubusercontent.com/xPMo/p10k-dir-glob/img/demo.png)
+![Fancy demo](https://raw.githubusercontent.com/xPMo/zsh-prompt-dir-glob/img/demo.png)
 
 Well, this plugin is for you!
 This plugin uses user-defined globs to format each directory in the tree separately.
@@ -172,7 +172,7 @@ it will unset the cached truncation of the current working directory as well.
 ## Source order
 
 We recommend loading/sourcing this plugin
-_before_ loading/sourcing Powerlevel10k.
+_before_ loading/sourcing your desired prompt.
 
 Since `prompt_dir_glob::add_glob` is provided by this plugin,
 make sure not to call it until after loading the plugin.
@@ -181,35 +181,35 @@ make sure not to call it until after loading the plugin.
 
 **Antigen**:
 ```zsh
-antigen bundle xPMo/p10k-dir-globs
+antigen bundle xPMo/zsh-prompt-dir-globs
 antigen apply
 ```
 
 **Zgen**:
 ```zsh
-zgen load xPMo/p10k-dir-glob
+zgen load xPMo/zsh-prompt-dir-glob
 zgen save
 ```
 
 
 **Zplug**:
 ```zsh
-zplug xPMo/p10k-dir-glob
+zplug xPMo/zsh-prompt-dir-glob
 ```
 
 **Zplugin**:
 ```zsh
 zplugin ice wait "0"
-zplugin light xPMo/p10k-dir-glob
+zplugin light xPMo/zsh-prompt-dir-glob
 
 # Optionally, track the latest development version:
 zplugin ice wait "0" ver"dev"
-zplugin light xPMo/p10k-dir-glob
+zplugin light xPMo/zsh-prompt-dir-glob
 ```
 
 **Manually**: Clone the project, and then source it:
 ```zsh
-source /path/to/p10k-dir-glob/p10k-dir-glob.plugin.zsh
+source /path/to/zsh-prompt-dir-glob/zsh-prompt-dir-glob.plugin.zsh
 ```
 
 
