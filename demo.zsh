@@ -6,12 +6,14 @@ cleanup(){
 trap cleanup EXIT
 PROMPT_DIR_GLOB__CACHE_FILE=$(mktemp)
 
-source ${0:h}/p10k-dir-glob.zsh
+source ${0:h}/prompt-dir-glob.zsh
 zmodload zsh/zutil
 
 # for demo purposes, replace p10k
-p10k(){
-	print -P '   '$3'\e[0m'
+prompt_dir_glob(){
+	local REPLY=
+	prompt_dir_glob::build
+	print -P '   '$REPLY'\e[0m'
 }
 print
 # }}}
@@ -20,7 +22,7 @@ prompt_dir_glob::add_glob -g '.git(#q/)' --pre '%B%F{green}'
 prompt_dir_glob::add_glob -g '.git(#q.)' --pre   '%F{green}'
 prompt_dir_glob::add_glob -g '(#qW)'     --pre   '%F{yellow}'
 prompt_dir_glob::add_glob -g '(#qUw)'    --pre   '%F{blue}'
-prompt_dir_glob::add_glob -g '(#qIe;.prompt_dir_glob::is_dir_gw;)' --pre '%F{cyan}' -t unique
+prompt_dir_glob::add_glob -g '(#qIe;prompt_dir_glob::is_dir_gw;)' --pre '%F{cyan}' -t unique
 prompt_dir_glob::add_glob -g '(#qWt)'    --pre '%U%F{12}'
 prompt_dir_glob__truncate[(#fallback)]=unique
 POWERLEVEL9K_DIR_FOREGROUND='magenta'
