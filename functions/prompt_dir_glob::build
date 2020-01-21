@@ -99,5 +99,5 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 done
 
 # don't append final separator
-p10k segment -t ${(j::)dir_parts[1,-2]}
+REPLY=${(j::)dir_parts[1,-2]}
 # vim: foldmethod=marker
