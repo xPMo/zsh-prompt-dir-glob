@@ -18,6 +18,71 @@ This plugin uses user-defined globs to format each directory in the tree separat
 
 ## Usage
 
+### Prompt Support
+
+<details>
+<summary><b> Powerlevel10k </b></summary>
+
+<br/>
+
+For [powerlevel10k](https://github.com/romkatv/powerlevel10k), add the following to your `.p10k.zsh`:
+
+```zsh
+typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+	... # segments you want before this segment
+	dir_glob
+	... # segments you want after this segment
+)
+function prompt_dir_glob () {
+	local REPLY
+	prompt_dir_glob::build
+	p10k segment -t $REPLY
+}
+```
+</details>
+
+<details>
+<summary><b> Geometry </b></summary>
+
+<br/>
+
+For [Geometry](https://github.com/geometry-zsh/geometry), add the following to your `.zshrc`:
+
+```zsh
+GEOMETRY_PROMPT=(
+	... # segments you want before this segment
+	prompt_dir_glob
+	... # segments you want after this segment
+)
+function prompt_dir_glob () {
+	local REPLY
+	prompt_dir_glob::build
+	print -P -n $REPLY
+}
+```
+</details>
+
+<details>
+<summary><b> Bullet Train </b></summary>
+
+<br/>
+
+For [Bullet Train](https://github.com/caiogondim/bullet-train.zsh), add the following to your `.zshrc`:
+
+```zsh
+BULLETTRAIN_PROMPT_ORDER=(
+	... # segments you want before this segment
+	dir_glob
+	... # segments you want after this segment
+)
+function prompt_dir_glob () {
+	local REPLY
+	prompt_dir_glob::build
+	print -P -n $REPLY
+}
+```
+</details>
+
 ### Adding globs
 
 Want to color directories you own and can write to blue?
