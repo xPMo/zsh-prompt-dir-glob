@@ -62,7 +62,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 		m*) # min:NUM (unique, but always show NUM digits)
 			w=${${(M)prompt_dir_glob__truncate[(e)$glob]%%[[:digit:]]*}:-1}
 			((w = w < 3 ? 0 : w - 2 ))
-			dir_trunctated=${dir[0,w]}
+			dir_truncated=${dir[0,w]}
 		;&  # fall-through
 		u*) # unique
 			set +f
@@ -70,7 +70,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 				dir_truncated+=$c
 				local f=("$head$dir_truncated"*(Y2))
 				if (( $#f < 2 )); then
-					[[ $#dir = $#dir_truncated ]] || dir_truncated+='\u2025'
+					[[ $#dir = $#dir_truncated ]] || dir_truncated+=$'\u2025'
 					break
 				fi
 			done
@@ -81,7 +81,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 			if (( w == 0 )); then
 				dir_truncated='%{%}' # print nothing
 			elif (( w < $#dir )); then
-				dir_truncated=${dir[0,w-1]}'\u2025'
+				dir_truncated=${dir[0,w-1]}$'\u2025'
 			fi
 		esac
 
