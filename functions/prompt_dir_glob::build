@@ -57,14 +57,24 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 			# this directory should be truncated, try cache first
 		[[ -z ${dir_truncated::=$__prompt_dir_glob__truncate_cache[$head$dir]} ]]
 	then
+		local w=
 		case $prompt_dir_glob__truncate[(e)$glob] in
+		m*) # min:NUM (unique, but always show NUM digits)
+			w=${${(M)prompt_dir_glob__truncate[(e)$glob]%%[[:digit:]]*}:-1}
+			((w = w < 3 ? 0 : w - 2 ))
+			dir_trunctated=${dir[0,w]}
+		;&  # fall-through
 		u*) # unique
-			for c (${(s::)dir}); do
-				set +f
+			set +f
+			for c (${(s::)${dir:$w}}); do
 				dir_truncated+=$c
 				local f=("$head$dir_truncated"*(Y2))
-				(( $#f < 2 )) && break
+				if (( $#f < 2 )); then
+					[[ $#dir = $#dir_truncated ]] || dir_truncated+='\u2025'
+					break
+				fi
 			done
+			set -f
 		;;
 		c*) # char:NUM
 			w=${${(M)prompt_dir_glob__truncate[(e)$glob]%%[[:digit:]]*}:-1}
