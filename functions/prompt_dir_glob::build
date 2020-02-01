@@ -70,7 +70,11 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 				dir_truncated+=$c
 				local f=("$head$dir_truncated"*(Y2))
 				if (( $#f < 2 )); then
-					[[ $#dir = $#dir_truncated ]] || dir_truncated+=$'\u2025'
+					if (($#dir - $#dir_truncated < 2)); then
+						dir_truncated=$dir
+					else
+						dir_truncated+=$'\u2025'
+					fi
 					break
 				fi
 			done
