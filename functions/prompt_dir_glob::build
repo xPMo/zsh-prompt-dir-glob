@@ -73,7 +73,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 					if (($#dir - $#dir_truncated < 2)); then
 						dir_truncated=$dir
 					else
-						dir_truncated+=$'\u2025'
+						dir_truncated+=$PROMPT_DIR_GLOB__TRUNCATE_CONT
 					fi
 					break
 				fi
@@ -85,7 +85,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 			if (( w == 0 )); then
 				dir_truncated='%{%}' # print nothing
 			elif (( w < $#dir )); then
-				dir_truncated=${dir[0,w-1]}$'\u2025'
+				dir_truncated=${dir[0,w-1]}$PROMPT_DIR_GLOB__TRUNCATE_CONT
 			fi
 		esac
 

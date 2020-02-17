@@ -14,6 +14,7 @@ declare -gA prompt_dir_glob__{prefix,suffix,truncate}
 declare -gA __prompt_dir_glob__{truncate_,}cache
 : ${PROMPT_DIR_GLOB__CACHE_FILE:="${XDG_CACHE_HOME:-$HOME/.cache}/prompt_dir_glob.cache.zsh"}
 : ${PROMPT_DIR_GLOB__SEPARATOR:=${POWERLEVEL9K_DIR_SEPARATOR:-'/'}}
+: ${PROMPT_DIR_GLOB__TRUNCATE_CONT=$'\u2025'}
 
 [[ -r $PROMPT_DIR_GLOB__CACHE_FILE ]] && . $PROMPT_DIR_GLOB__CACHE_FILE
 
