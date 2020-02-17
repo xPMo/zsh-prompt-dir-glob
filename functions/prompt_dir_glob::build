@@ -51,10 +51,11 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	# don't truncate show_init
 	local dir_truncated=''
 	if
+		# ensure this is initial dir, and the user has requested truncate for this glob
 		[[ -z $show_init && $prompt_dir_glob__truncate[(e)$glob] ]] &&
-			# this directory should be truncated unless it is '.'
+		# if we are in $PWD, ensure the user has requested us to truncate it
 		{ [[ ${head:a}/$dir != $actual ]] || zstyle -t :dir-glob truncate-pwd false } &&
-			# this directory should be truncated, try cache first
+		# try to use cached truncated string first
 		[[ -z ${dir_truncated::=$__prompt_dir_glob__truncate_cache[$head$dir]} ]]
 	then
 		local w=
