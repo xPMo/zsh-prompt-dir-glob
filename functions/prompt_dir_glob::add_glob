@@ -4,8 +4,12 @@ setopt extendedglob
 
 local -a glob prefix suffix truncate shortcuts help
 local f g shortcut
+local -a zpo
+if is-at-least 5.8; then
+	zpo+=(-F)
+fi
 
-zparseopts - G:=glob g:=glob -glob:=glob \
+zparseopts $zpo - G:=glob g:=glob -glob:=glob \
 	-pre:=prefix -suf:=suffix \
 	t:=truncate -truncate:=truncate \
 	-gw=shortcuts -inner=shortcuts \
