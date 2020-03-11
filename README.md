@@ -6,7 +6,7 @@
 
 # Directory Coloring by Globs
 
-*An alternate directory segment for [Powerlevel10k](https://github.com/romkatv/powerlevel10k)*
+*An alternate directory segment for \$your_prompt*
 
 Would you like to see your prompt path look like one of these?
 
