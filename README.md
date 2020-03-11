@@ -49,7 +49,7 @@ function prompt_dir_glob () {
 For [Apollo](https://github.com/mjrafferty/apollo-zsh-theme), add the following to your `.zshrc`:
 
 ```zsh
-zstyle ':apollo:example:core:modules:left' modules \
+zstyle ":apollo:${theme_name}:core:modules:left" modules \
 	[modules you want before this module] dir_glob [modules you want after this module]
 function __apollo_dir_glob_run() {
 	local REPLY
