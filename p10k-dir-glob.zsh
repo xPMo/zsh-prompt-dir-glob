@@ -18,6 +18,6 @@ declare -gA __prompt_dir_glob__{truncate_,}cache
 [[ -r $PROMPT_DIR_GLOB__CACHE_FILE ]] && . $PROMPT_DIR_GLOB__CACHE_FILE
 
 function prompt_dir_glob::flush_cache() {
-	typeset -p __prompt_dir_glob__{truncate_,}cache > $PROMPT_DIR_GLOB__CACHE_FILE
+	typeset -p __prompt_dir_glob__{truncate_,}cache >| $PROMPT_DIR_GLOB__CACHE_FILE
 	zcompile $PROMPT_DIR_GLOB__CACHE_FILE
 }
