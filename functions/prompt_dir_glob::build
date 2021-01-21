@@ -84,7 +84,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 		fi
 	fi
 	# }}}
-	parts+=(${show_init:-${dir_truncated:-$dir}})
+	parts+=(${${show_init:-${dir_truncated:-$dir}}//\%/%%})
 
 	# get suffix style
 	parts+=(${prompt_dir_glob__suffix[(e)$glob]})
