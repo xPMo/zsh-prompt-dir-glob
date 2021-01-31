@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 zmodload zsh/parameter
+local g
 for g ($usergroups); do
 	local f=("${REPLY}"(Eg$g))
 	[[ -n $f ]] && return 0
