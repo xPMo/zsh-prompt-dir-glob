@@ -14,7 +14,7 @@ local -a dir_parts parts
 for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	# {{{ handle root case
 	if [[ -z $dir ]]; then
-		if zstyle -t :dir_glob include-root; then
+		if zstyle -T :prompt:dir-glob include-root; then
 			dir=/
 		else
 			head=/
@@ -53,7 +53,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	if
 		[[ -z $show_init && $prompt_dir_glob__truncate[(e)$glob] ]] &&
 			# this directory should be truncated unless it is '.'
-		{ [[ ${head:a}/$dir != $actual ]] || zstyle -t :dir-glob truncate-pwd false } &&
+		{ [[ ${head:a}/$dir != $actual ]] || zstyle -t :prompt:dir-glob truncate-pwd false } &&
 			# this directory should be truncated, try cache first
 		[[ -z ${dir_truncated::=$__prompt_dir_glob__truncate_cache[$head$dir]} ]]
 	then
