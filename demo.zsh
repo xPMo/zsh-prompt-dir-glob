@@ -29,8 +29,8 @@ POWERLEVEL9K_DIR_FOREGROUND='magenta'
 # }}}
 # {{{ Demo 1
 # Include '/' in previous dir (default)
-zstyle :dir_glob include-root false
-zstyle :dir_glob truncate-pwd true
+zstyle :prompt:dir-glob include-root false
+zstyle :prompt:dir-glob truncate-pwd true
 
 for dir; do
 	( cd $dir && prompt_dir_glob )
@@ -72,7 +72,7 @@ prompt_dir_glob::add_glob -G '(+is_dot_git)' --pre '%F{10}\ue5fb' -t c0
 # Use nerd-fonts powerline chevron
 PROMPT_DIR_GLOB__SEPARATOR=' %B%F{245}\ue0b1 '
 
-zstyle :dir_glob include-root true
+zstyle :prompt:dir-glob include-root true
 for dir; do
 	( cd $dir && prompt_dir_glob )
 done

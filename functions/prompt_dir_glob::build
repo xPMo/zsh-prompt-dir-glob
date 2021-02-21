@@ -14,7 +14,7 @@ local -a dir_parts parts
 for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	# {{{ handle root case
 	if [[ -z $dir ]]; then
-		if zstyle -t :dir_glob include-root; then
+		if zstyle -t :prompt:dir-glob include-root; then
 			dir=/
 		else
 			head=/
@@ -54,7 +54,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 		# ensure this is initial dir, and the user has requested truncate for this glob
 		[[ -z $show_init && $prompt_dir_glob__truncate[(e)$glob] ]] &&
 		# if we are in $PWD, ensure the user has requested us to truncate it
-		{ [[ ${head:a}/$dir != $actual ]] || zstyle -t :dir-glob truncate-pwd false } &&
+		{ [[ ${head:a}/$dir != $actual ]] || zstyle -t :prompt:dir-glob truncate-pwd false } &&
 		# try to use cached truncated string first
 		[[ -z ${dir_truncated::=$__prompt_dir_glob__truncate_cache[$head$dir]} ]]
 	then
@@ -99,7 +99,7 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 		fi
 	fi
 	# }}}
-	parts+=(${show_init:-${dir_truncated:-$dir}})
+	parts+=(${${show_init:-${dir_truncated:-$dir}}//\%/%%})
 
 	# get suffix style
 	parts+=(${prompt_dir_glob__suffix[(e)$glob]})
@@ -113,6 +113,11 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	head+=${dir}/
 done
 
-# don't append final separator
-REPLY=${(j::)dir_parts[1,-2]}
+# don't append final separator unless we're in /
+if [[ $PWD = / ]] && ! zstyle -t :prompt:dir-glob include-root; then
+	REPLY=${(j::)dir_parts}
+else
+	REPLY=${(j::)dir_parts[1,-2]}
+
+fi
 # vim: foldmethod=marker
