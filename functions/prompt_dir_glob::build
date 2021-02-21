@@ -14,7 +14,7 @@ local -a dir_parts parts
 for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	# {{{ handle root case
 	if [[ -z $dir ]]; then
-		if zstyle -T :prompt:dir-glob include-root; then
+		if zstyle -t :prompt:dir-glob include-root; then
 			dir=/
 		else
 			head=/
@@ -98,6 +98,11 @@ for dir ("${actual_init%/}" ${(s:/:)remainder}); do
 	head+=${dir}/
 done
 
-# don't append final separator
-REPLY=${(j::)dir_parts[1,-2]}
+# don't append final separator unless we're in /
+if [[ $PWD = / ]] && ! zstyle -t :prompt:dir-glob include-root; then
+	REPLY=${(j::)dir_parts}
+else
+	REPLY=${(j::)dir_parts[1,-2]}
+
+fi
 # vim: foldmethod=marker
